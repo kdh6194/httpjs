@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
+    {{{ _sections.css }}}
 </head>
 <body>
-    <header>a</header>
+{{> header }}
     {{{body}}}
-    <footer>n</footer>
+{{> footer }}
+{{{ _sections.div }}}
+{{{ _sections.script }}}
+{{{ _sections.script1 }}}
+<!--여기서는 복수로 작성하고 해당 hbs에서는 단수로 작성해야 한다
+    .뒤에 붙는 이름은 내맘대로 작성하면 된다-->
 </body>
 </html>

@@ -1,2 +1,52 @@
+{{#section 'css'}}
+    <style>
+        h1 {color: lime}
+    </style>
+{{/section}}
+
+{{#section 'script'}}
+    <script>
+        alert('hello,world')
+    </script>
+{{/section}}
+{{#section 'div'}}
+    <div>
+        <button type = "button" onclick="startRndWin()">랜덤창 시작</button>
+        <button type = "button" onclick="stopRndWin()">랜덤창 중지</button>
+    </div>
+{{/section}}
+
+{{#section 'script1'}}
+    <script>
+        let myWin = null;
+        let intv = null;
+
+        let makeWin1 = () => {
+            myWin = window.open('about:blank',null,'popup,width=300,height=300');
+        }
+
+        let moveWin = () => {
+            let x = Math.floor(Math.random() *1280)
+            let y = Math.floor(Math.random() *1080)
+
+            myWin.moveTo(x,y);
+        }
+        let resizeWin = () => {
+            let w = Math.floor(Math.random() *1080)
+            let h = Math.floor(Math.random() *900)
+
+            myWin.resizeTo(w,h);
+        }
+        let startRndWin = () => {
+            makeWin1()
+            intv = setInterval(()=>{moveWin();resizeWin();},100)
+        }
+        let stopRndWin = () => {
+            clearInterval(intv); // 동작을 멈추게 한다
+            myWin.close();
+        }
+    </script>
+{{/section}}
+
 <h1>index 페이지입니다</h1>
 <img src="/img/rubber-duck.png" alt="">

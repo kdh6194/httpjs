@@ -10,11 +10,17 @@ const aboutRouter = require('./routes/about')
 
 const app = express();
 const port = process.env.PORT || 3000;
-const html = 'text/html; charset=utf-8';
 
 // view 템플릿 엔진 설정
 app.engine('hbs',engine({
-    extname: '.hbs', defaultLayout: 'layout'
+    extname: '.hbs', defaultLayout: 'layout',
+    helpers: {
+        section: function(name, options) {
+            if(!this._sections) this._sections = {}
+            this._sections[name] = options.fn(this)
+            return null
+        },
+    }
 }))
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine', 'hbs');

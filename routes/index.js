@@ -32,6 +32,16 @@ router.get('/showsungjuk',async (req, res)=>{
     res.render('showsungjuk',{title:'성적전체보기', sjs: await sjs});
 });
     // 객체로 넘어간 값들은 #을 붙어야한다 (showsungjuk.hbs에서 범위를 지정할때)
+router.get('/viewsungjuk',async (req, res)=>{
+    let sjno = req.query.sjno; //querystring의 매개변수 추출
+    // form으로 받았으면 body querystring로 받으면 params로 받는듯
+    let sjs = new SungJuk().selectOne(sjno).then(async result =>{
+        return await result;
+    });
+    console.log(await sjs)
+    res.render('viewsungjuk',{title:'성적 상세보기', sjs: await sjs});
+});
+
 router.post('/sungjuk',(req, res,next)=> {
     //폼으로 전송된 데이터들은 req.body, req.body.폼이름 등으로 확인가능
     // console.log(req.body);

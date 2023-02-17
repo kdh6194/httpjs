@@ -12,7 +12,8 @@
     <!-- 리스트행 시작-->
     {{# sjs}}
     <tr>
-        <td>{{sjno}}</td><td>{{name}}</td><td>{{kor}}</td><td>{{eng}}</td><td>{{mat}}</td><td>{{regdate}}</td>
+       <td><a href="/viewsungjuk?sjno={{sjno}}">{{sjno}}</a></td><td>{{name}}</td><td>{{kor}}</td><td>{{eng}}</td><td>{{mat}}</td><td>{{regdate}}</td>
+        <!--게시판 만들때 이렇게 사용한다-->
     </tr>
     {{/sjs}}
 </table>

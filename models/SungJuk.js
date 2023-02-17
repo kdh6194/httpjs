@@ -6,6 +6,7 @@ class SungJuk {
         outFormat: oracledb.OUT_FORMAT_OBJECT
     }; // 얘가 없으면 select구문이 제대로 동작하지않는다.
     selectsql = `select sjno,name,kor,eng,mat,to_char(regdate,'yyyy-mm-dd') from sungjuks order by sjno desc `;
+    selectOnesql = `select sjno,name,kor,eng,mat,tot,avg,grd,to_char(regdate,'yyyy-mm-dd hh:mi:ss') from sungjuks where sjno =:1 order by sjno desc `;
     // 생성자 정의 - 변수 초기화
     // 즉, 매개변술 전달된 값을 클래스 멤버변수에 대입함
     // 특정 함수에 값들을 전달하기 위해서?
@@ -70,7 +71,32 @@ class SungJuk {
         return await sjs;
     }
     //성적 상세조회
-    selectOne(sjno) {}
+    async selectOne(sjno) {
+        let conn = null;
+        let result = null;
+        let sjs = [];
+
+        try {
+            conn = await oracledb.makeConn();
+            result = await conn.execute(this.selectOnesql,[sjno],this.options)
+
+            let rs = result.resultSet
+            let row = null;
+            while((row = await rs.getRow())){
+                let sj = new SungJuk(row[1],row[2],row[3],row[4],row[5],row[6],row[7]);
+                sj.sjno = row[0];
+                sj.regdate = row[8];
+                sjs.push(sj)
+            }
+
+        }catch (e){
+            console.log(e);
+        }finally {
+            await oracledb.closeConn(conn);
+        }
+
+        return await sjs;
+    }
 }
 
 module.exports =SungJuk;

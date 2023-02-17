@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan') // 로그 출력기
 const {engine} = require('express-handlebars')
+const bodyParser = require('body-parser') // 폼 처리기 : 전송된 페이지에 보여주는 미들웨어
 
 // 라우팅 외부 작성
 const indexRouter = require('./routes/index')
@@ -33,6 +34,13 @@ app.use(express.static(path.join(__dirname,'static')));
 // 로그 설정
 app.use(logger('dev'));
 
+// 미들웨어 등록 및 설정
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+// 전송 폼 데이터에 대한 urlencoding을 위한 설정
+app.use(bodyParser.json());  // 전송된 폼 데이터는 json형식으로 받음
+//app.use(bodyParser.text()); // enctype이 text/plain일때 필요
+
 // index에 대한 route handler 지정
 app.use('/',indexRouter);
 app.use('/user',userRouter);
@@ -55,3 +63,5 @@ app.use((err,req, res,next)=>{
 app.listen(port,()=>{
     console.log('express 서버가 작동중... 중지하려면 ctrl+c를 누르세요.');
 });
+// 모종의 이유로 작업이 이상하게 끊겨서 실행을 하지 않는중에도
+//  웹서버가 돌아간다면 작업하던창을 모두 종료하고 다시 실행하면 될지도
